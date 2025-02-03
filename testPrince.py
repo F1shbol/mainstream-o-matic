@@ -20,7 +20,7 @@ rows = adp_table.find_all('tr')
 print(rows[0])
 
 first_data_row = rows[1]
-print(first_data_row.find_all('td'))
+# print(first_data_row.find_all('td'))
 
 def parse_row(row):
     # Take in a tr tag and get the data out of it in the form of a list of
@@ -29,10 +29,12 @@ def parse_row(row):
 
 
 # Makes a list manually with one slot for date and one slot for 
-# time, then returns that
+# time, then returns that.
+# Time and Listeners don't need to be their own lists, so you should
+# replace the findall with find soon
 def parseRow2(row):
     timeList = [str(x.attrs['datetime']) for x in row.find_all(attrs={'class':['js-date']})]
-    listenerList = [str(x.attrs['data-value']) for x in row.find_all(attrs={'class':['js-value']})]
+    listenerList = [int(x.attrs['data-value']) for x in row.find_all(attrs={'class':['js-value']})]
 
     result = [timeList[0], listenerList[0]]
     return result
@@ -42,4 +44,6 @@ list_of_parsed_rows = [parseRow2(row) for row in rows[1:]]
 # print(list_of_parsed_rows)
 
 df = DataFrame(list_of_parsed_rows)
-print(df.head())
+# print(df.tail())
+print(df[[1]].mean()) # overall average listeners
+print(df.loc[173:179]) # prints last seven days of listeners
