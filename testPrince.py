@@ -6,8 +6,8 @@ from pandas import DataFrame
 
 print(pd.__version__)
 
-ffc_response = requests.get('https://www.last.fm/music/Prince')
-# ffc_response = requests.get('https://www.last.fm/music/The+Weeknd/Hurry+Up+Tomorrow')
+# ffc_response = requests.get('https://www.last.fm/music/Prince')
+ffc_response = requests.get('https://www.last.fm/music/Doechii')
 
 adp_soup = Soup(ffc_response.text, "html.parser")
 
@@ -45,5 +45,16 @@ list_of_parsed_rows = [parseRow2(row) for row in rows[1:]]
 
 df = DataFrame(list_of_parsed_rows)
 # print(df.tail())
-print(df[[1]].mean()) # overall average listeners
 print(df.loc[173:179]) # prints last seven days of listeners
+
+# Here you're filtering for the last 7, 30, and 90 days of listener data
+# I'm assuming the data always goes back 180 days, so I'm going to leave it
+# as treating 179 as the last index (loc doesn't support reverse-indexing
+# for some reason)
+lastWeek = df.loc[173:179]
+lastMonth = df.loc[150:179]
+last3Months = df.loc[90:179]
+print("Last week's average listeners:", lastWeek[[1]].mean())
+print("Last month's average listeners:", lastMonth[[1]].mean())
+print("Last three months' average listeners:", last3Months[[1]].mean())
+print("Last six months' average listeners:", df[[1]].mean()) # overall average listeners
