@@ -54,7 +54,8 @@ print(df.loc[173:179]) # prints last seven days of listeners
 lastWeek = df.loc[173:179]
 lastMonth = df.loc[150:179]
 last3Months = df.loc[90:179]
-print("Last week's average listeners:", lastWeek[[1]].mean())
-print("Last month's average listeners:", lastMonth[[1]].mean())
-print("Last three months' average listeners:", last3Months[[1]].mean())
-print("Last six months' average listeners:", df[[1]].mean()) # overall average listeners
+print("Last week's average listeners:", lastWeek[[1]].mean().iloc[0])
+# print("iloc thing:", lastWeek[[1]].mean().iloc[0])
+print("Last month's average listeners:", lastMonth[[1]].mean().iloc[0])
+print("Last three months' average listeners:", last3Months[[1]].mean().iloc[0])
+print("Last six months' average listeners:", df[[1]].mean().iloc[0]) # overall average listeners

@@ -2,36 +2,49 @@
 # https://www.last.fm/music/Tyler,+the+Creator
 # https://www.last.fm/music/Chance+the+Rapper/_/Hot+Shower
 # https://www.last.fm/music/Prince
+# Some link examples ^^
 
-starter = "https://www.last.fm/music/"
+# This .py file takes in an imput file of form:
+# artist1
+# playcount
+# ...
+# and creates lists of the artists, the playcounts, and links to their
+# last.fm pages
+def linkifyInput():
+    starter = "https://www.last.fm/music/"
+    names = []
+    playcounts = []
 
-f = open('input.txt')
+    # Finds the number of two-line entries in the input file
+    with open(r"input.txt", 'r') as fp:
+        lines = len(fp.readlines())
+        entries = lines//2
+        # print("lines:",lines)
+        # print("entries",entries)
 
-names = ["a","a","a","a","a"]
-playcounts = [0,0,0,0,0] 
-links = ["a","a","a","a","a"]
+    # puts the input sile's content into name and playcount lists
+    with open(r"input.txt", 'r') as fp:
+        for i in range(entries):
+            names.append(fp.readline())
+            names[i] = names[i][:-1] # remove trailing \n
+            playcounts.append(int(fp.readline()))
 
-for i in range(5):
-    names[i] = f.readline()
-    playcounts[i] = int(f.readline())
-# for line in f:
-#     print(line, end='')
+    # print(names)
+    # print(playcounts)
 
-f.closed
+    links = []
 
-print(names)
-print(playcounts)
+    for i in range(entries):
+        tempstr = ""
+        for char in names[i]:
+            if (char == " "):
+                tempstr += "+"
+            else:
+                tempstr += char
+        names[i] = tempstr
 
-for i in range(5):
-    tempstr = ""
-    for char in names[i]:
-        if (char == " "):
-            tempstr += "+"
-        else:
-            tempstr += char
-    names[i] = tempstr
+    for i in range(entries):
+        links.append(starter + names[i])
 
-for i in range(len(links)):
-    links[i] = starter + names[i][:-1]
-
-print(links)
+    # print(links)
+    return names, playcounts, links
