@@ -19,10 +19,8 @@ def linkifyInput():
     with open(r"input.txt", 'r') as fp:
         lines = len(fp.readlines())
         entries = lines//2
-        # print("lines:",lines)
-        # print("entries",entries)
 
-    # puts the input sile's content into name and playcount lists
+    # puts the input file's content into name and playcount lists
     with open(r"input.txt", 'r') as fp:
         for i in range(entries):
             names.append(fp.readline())
@@ -34,6 +32,7 @@ def linkifyInput():
 
     links = []
 
+    # replaces spaces with plusses
     for i in range(entries):
         tempstr = ""
         for char in names[i]:
@@ -42,7 +41,7 @@ def linkifyInput():
             else:
                 tempstr += char
         names[i] = tempstr
-
+    
     for i in range(entries):
         links.append(starter + names[i])
 
