@@ -1,9 +1,12 @@
 from linkify import linkifyInput
+from frontend import welcome
+
 import pandas as pd
 from bs4 import BeautifulSoup as Soup
 import requests
 from pandas import DataFrame
 from time import sleep
+import sys
 
 # Might want to move this to its own file with any other
 # functions I think up
@@ -17,6 +20,9 @@ def parseRow3(row):
     listeners = int(listenersSrch.attrs['data-value'])
 
     return time, listeners
+
+if (welcome() == False):
+    sys.exit("Program exited")
 
 # gets the lists returned by linkify.py
 names, playcounts, links = linkifyInput()
