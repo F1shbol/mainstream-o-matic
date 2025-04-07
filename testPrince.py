@@ -39,8 +39,17 @@ def parseRow2(row):
     result = [timeList[0], listenerList[0]]
     return result
 
+def parseRow3(row):
+    timeSrch = row.find(attrs={'class':['js-date']})
+    time = str(timeSrch.attrs['datetime'])
 
-list_of_parsed_rows = [parseRow2(row) for row in rows[1:]]
+    listenersSrch = row.find(attrs={'class':['js-value']})
+    listeners = int(listenersSrch.attrs['data-value'])
+
+    return time, listeners
+
+
+list_of_parsed_rows = [parseRow3(row) for row in rows[1:]]
 # print(list_of_parsed_rows)
 
 df = DataFrame(list_of_parsed_rows)

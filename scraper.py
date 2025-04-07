@@ -5,16 +5,26 @@ import requests
 from pandas import DataFrame
 from time import sleep
 
-# You'll want to update this function and put the 3rd version in this file
-from testPrince import parseRow2
+# Might want to move this to its own file with any other
+# functions I think up
+# This one takes a row from the html table and extracts
+# each date and its number of listeners
+def parseRow3(row):
+    timeSrch = row.find(attrs={'class':['js-date']})
+    time = str(timeSrch.attrs['datetime'])
+
+    listenersSrch = row.find(attrs={'class':['js-value']})
+    listeners = int(listenersSrch.attrs['data-value'])
+
+    return time, listeners
 
 # gets the lists returned by linkify.py
 names, playcounts, links = linkifyInput()
 
-data = {"name": names,
+frameStarter = {"name": names,
         "playcount": playcounts,}
 
-frame = pd.DataFrame(data)
+frame = pd.DataFrame(frameStarter)
 
 print(frame)
 
@@ -32,7 +42,7 @@ for link in links:
     tables = adp_soup.find_all('table') # finds tables in the site
     adp_table = tables[1] # as the site stands now, the second table is the one with the data we want
     rows = adp_table.find_all('tr') # stores all rows in the table
-    list_of_parsed_rows = [parseRow2(row) for row in rows[1:]] # parses every row except the header
+    list_of_parsed_rows = [parseRow3(row) for row in rows[1:]] # parses every row except the header
     df = DataFrame(list_of_parsed_rows) # turns parsed rows into a pandas dataframe
 
     lastWeek = df.loc[173:179]
@@ -44,7 +54,7 @@ for link in links:
     threemonths.append(round(last3Months[[1]].mean().iloc[0], 3))
     sixmonths.append(round(df[[1]].mean().iloc[0], 3))
 
-    sleep(2)
+    sleep(1)
     idx += 1
 
 frame["1w"] = oneweek
