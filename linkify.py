@@ -24,6 +24,9 @@ def linkifyInput():
     # I'm hard-coding it
     filetype = 'csv'
 
+    # Same deal. This option will ignore all artists with only one play
+    fastMode = 'y'
+
     if (filetype == "txt"):
         # Finds the number of two-line entries in the input file
         with open(r"input.txt", 'r') as fp:
@@ -58,22 +61,29 @@ def linkifyInput():
         # Reads the input .csv to a dict object, then iterates through it
         # creating a new dictionary where each artist is a key and their
         # playcount is the value
-        with open(inputCsv, newline='') as csvfile:
+        with open(inputCsv, newline='', errors='ignore') as csvfile:
             reader = csv.DictReader(csvfile)
             thisdict = dict()
             for row in reader:
                 dictCheck(row['artist'], thisdict)
         
         # Append the names and playcounts to their lists
-        entries = len(thisdict)
-        for x, y in thisdict.items():
-            names.append(x)
-            playcounts.append(int(y))
+        # For fast mode it checks if the artist has more than one play first
+        if (fastMode == 'y'):
+            for x, y in thisdict.items():
+                if (int(y) > 1):
+                    names.append(x)
+                    playcounts.append(int(y))
+        else:
+            # entries = len(thisdict)
+            for x, y in thisdict.items():
+                names.append(x)
+                playcounts.append(int(y))
 
     links = []
 
     # replaces spaces with plusses
-    for i in range(entries):
+    for i in range(len(names)):
         tempstr = ""
         for char in names[i]:
             if (char == " "):
@@ -82,7 +92,7 @@ def linkifyInput():
                 tempstr += char
         names[i] = tempstr
     
-    for i in range(entries):
+    for i in range(len(names)):
         links.append(starter + names[i])
 
     # print(links)

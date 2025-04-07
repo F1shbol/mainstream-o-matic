@@ -46,6 +46,14 @@ for link in links:
     ffc_response = requests.get(link) # gets raw code from a site and stores it in a variable
     adp_soup = Soup(ffc_response.text, "html.parser") # turns raw code into a Soup object
     tables = adp_soup.find_all('table') # finds tables in the site
+    if (len(tables) < 2):
+        print("Error fetching table from link", link)
+        idx += 1
+        oneweek.append(-1)
+        onemonth.append(-1)
+        threemonths.append(-1)
+        sixmonths.append(-1)
+        continue
     adp_table = tables[1] # as the site stands now, the second table is the one with the data we want
     rows = adp_table.find_all('tr') # stores all rows in the table
     list_of_parsed_rows = [parseRow3(row) for row in rows[1:]] # parses every row except the header
@@ -60,7 +68,7 @@ for link in links:
     threemonths.append(round(last3Months[[1]].mean().iloc[0], 3))
     sixmonths.append(round(df[[1]].mean().iloc[0], 3))
 
-    sleep(1)
+    sleep(2)
     idx += 1
 
 frame["1w"] = oneweek
