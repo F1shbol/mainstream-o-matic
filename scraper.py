@@ -1,5 +1,6 @@
 from linkify import linkifyInput
 from frontend import welcome
+from formula import getScore
 
 import pandas as pd
 from bs4 import BeautifulSoup as Soup
@@ -7,6 +8,9 @@ import requests
 from pandas import DataFrame
 from time import sleep
 import sys
+
+# Command to create a single executable
+# python -m PyInstaller -F scraper.py
 
 # Might want to move this to its own file with any other
 # functions I think up
@@ -68,7 +72,7 @@ for link in links:
     threemonths.append(round(last3Months[[1]].mean().iloc[0], 3))
     sixmonths.append(round(df[[1]].mean().iloc[0], 3))
 
-    sleep(2)
+    sleep(3)
     idx += 1
 
 frame["1w"] = oneweek
@@ -77,4 +81,9 @@ frame["3mo"] = threemonths
 frame["6mo"] = sixmonths
 
 # print(frame)
+# print(frame.describe())
+OWLA = frame[['1w']].mean().iloc[0]
+print("Your one-week listener average is", round(OWLA, 1))
+print("This corresponds to a mainstream score of approximately ", round(getScore(OWLA), 0), "%", sep="")
+
 frame.to_csv('file1.csv')

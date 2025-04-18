@@ -25,7 +25,7 @@ def linkifyInput():
     filetype = 'csv'
 
     # Same deal. This option will ignore all artists with only one play
-    fastMode = 'y'
+    fastMode = 'n'
 
     if (filetype == "txt"):
         # Finds the number of two-line entries in the input file

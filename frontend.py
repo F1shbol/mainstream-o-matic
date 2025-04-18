@@ -1,7 +1,7 @@
 from datetime import datetime
 
 current_timestamp = int(datetime.now().timestamp())
-lastWeek = current_timestamp - 604800
+lastWeek = current_timestamp - 864000
 
 def welcome():
     print("Welcome to the Mainstream-O-Matic!\n\nTo get started, follow these steps:\n"\
