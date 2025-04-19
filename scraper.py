@@ -1,6 +1,6 @@
 from linkify import linkifyInput
 from frontend import welcome
-from formula import getScore, playSearch, addWeight
+from formula import getScore, playSearch, addWeight, parseRow3
 
 import pandas as pd
 from bs4 import BeautifulSoup as Soup
@@ -11,19 +11,6 @@ import sys
 
 # Command to create a single executable
 # python -m PyInstaller -F scraper.py
-
-# Might want to move this to its own file with any other
-# functions I think up
-# This one takes a row from the html table and extracts
-# each date and its number of listeners
-def parseRow3(row):
-    timeSrch = row.find(attrs={'class':['js-date']})
-    time = str(timeSrch.attrs['datetime'])
-
-    listenersSrch = row.find(attrs={'class':['js-value']})
-    listeners = int(listenersSrch.attrs['data-value'])
-
-    return time, listeners
 
 if (welcome() == False):
     sys.exit("Program exited")

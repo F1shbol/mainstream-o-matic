@@ -1,6 +1,17 @@
 import numpy as np
 from pandas import DataFrame
 
+# This one takes a row from the html table and extracts
+# each date and its number of listeners
+def parseRow3(row):
+    timeSrch = row.find(attrs={'class':['js-date']})
+    time = str(timeSrch.attrs['datetime'])
+
+    listenersSrch = row.find(attrs={'class':['js-value']})
+    listeners = int(listenersSrch.attrs['data-value'])
+
+    return time, listeners
+
 def multiplyCells(row):
     return float(row['playcount']) * float(row['1w'])
 
