@@ -1,6 +1,6 @@
 from linkify import linkifyInput
 from frontend import welcome
-from formula import getScore
+from formula import getScore, playSearch, addWeight
 
 import pandas as pd
 from bs4 import BeautifulSoup as Soup
@@ -80,10 +80,21 @@ frame["1mo"] = onemonth
 frame["3mo"] = threemonths
 frame["6mo"] = sixmonths
 
-# print(frame)
-# print(frame.describe())
-OWLA = frame[['1w']].mean().iloc[0]
-print("Your one-week listener average is", round(OWLA, 1))
-print("This corresponds to a mainstream score of approximately ", round(getScore(OWLA), 0), "%", sep="")
+frame = addWeight(frame) # adds a new column with artists' weighted OWLAs
+OWLA = frame['weighted'].sum() / frame['playcount'].sum()
+
+print("\nYour one-week listener average is", round(OWLA, 1))
+print("This corresponds to a last.fm mainstream score of approximately ", round(getScore(OWLA), 0), "%", sep="")
+
+frame = frame.sort_values(by='1w')
+frame = frame.reset_index() # This adds an extra index column to the left, affecting the iloc calls below
+artistList = frame['name'].tolist()
+playsList = frame['1w'].tolist()
+playSearch(playsList, artistList, len(artistList), OWLA)
+
+print("Your most mainstream artist was ", frame.loc[len(frame)-1].iloc[1], " (", frame.loc[len(frame)-1].iloc[3], 
+      " average listeners last week)", sep="")
+print("Your most obscure artist was ", frame.loc[0].iloc[1], " (", frame.loc[0].iloc[3], 
+      " average listeners last week)", sep="")
 
 frame.to_csv('file1.csv')

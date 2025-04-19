@@ -82,18 +82,29 @@ def linkifyInput():
 
     links = []
 
-    # replaces spaces with plusses
+    namesCopy = names[:]
+
+    # replaces spaces with plusses and fixes a few other trouble characters
     for i in range(len(names)):
         tempstr = ""
-        for char in names[i]:
+        for char in namesCopy[i]:
             if (char == " "):
                 tempstr += "+"
+            elif (char == "/"):
+                tempstr += "%"
+                tempstr += "2F"
+            elif (char == "?"):
+                tempstr += "%"
+                tempstr += "3F"
+            elif (char == "+"):
+                tempstr += "%"
+                tempstr += "252B"
             else:
                 tempstr += char
-        names[i] = tempstr
+        namesCopy[i] = tempstr
     
-    for i in range(len(names)):
-        links.append(starter + names[i])
+    for i in range(len(namesCopy)):
+        links.append(starter + namesCopy[i])
 
     # print(links)
     return names, playcounts, links
