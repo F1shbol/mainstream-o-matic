@@ -1,22 +1,23 @@
 from linkify import linkifyInput
 from frontend import welcome
-from formula import getScore, playSearch, addWeight, parseRow3
+from formula import getScore, playSearch, addWeight, parseRow3, printBookends, findHeaviest
 
 import pandas as pd
 from bs4 import BeautifulSoup as Soup
 import requests
 from pandas import DataFrame
 from time import sleep
-import sys
 
 # Command to create a single executable
 # python -m PyInstaller -F scraper.py
 
-if (welcome() == False):
-    sys.exit("Program exited")
+# if (welcome() == False):
+#     sys.exit("Program exited")
+
+options = welcome()
 
 # gets the lists returned by linkify.py
-names, playcounts, links = linkifyInput()
+names, playcounts, links = linkifyInput(options)
 
 frameStarter = {"name": names,
         "playcount": playcounts,}
@@ -79,9 +80,8 @@ artistList = frame['name'].tolist()
 playsList = frame['1w'].tolist()
 playSearch(playsList, artistList, len(artistList), OWLA)
 
-print("Your most mainstream artist was ", frame.loc[len(frame)-1].iloc[1], " (", frame.loc[len(frame)-1].iloc[3], 
-      " average listeners last week)", sep="")
-print("Your most obscure artist was ", frame.loc[0].iloc[1], " (", frame.loc[0].iloc[3], 
-      " average listeners last week)", sep="")
+printBookends(frame)
+findHeaviest(frame)
 
-frame.to_csv('file1.csv')
+if (options[3] == 1):
+    frame.to_csv('file1.csv')

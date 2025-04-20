@@ -14,18 +14,22 @@ import os
 import fnmatch
 import csv
 
-def linkifyInput():
+def linkifyInput(modes):
     starter = "https://www.last.fm/music/"
     names = []
     playcounts = []
 
-    # csv vs. txt
-    # My plan is to ask the user which one they want, but for now
-    # I'm hard-coding it
-    filetype = 'csv'
+    # take the options decided in welcome()
+    if (modes[0] == 0):
+        filetype = 'csv'
+    else:
+        filetype = 'txt'
 
     # Same deal. This option will ignore all artists with only one play
-    fastMode = 'n'
+    if (modes[1] == 0):
+        fastMode = 'n'
+    else:
+        fastMode = 'y'
 
     if (filetype == "txt"):
         # Finds the number of two-line entries in the input file
