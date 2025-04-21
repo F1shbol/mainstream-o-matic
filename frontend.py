@@ -36,7 +36,7 @@ def welcome():
     if (ans3 == "1"):
         options[1]= 1
 
-    print("Do you want to create a file containing more details?\n" \
+    print("Do you want to create a .csv file containing more details about the artists?\n" \
     "1. Yes\n" \
     "2. No")
     ans3 = input()

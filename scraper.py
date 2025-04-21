@@ -83,5 +83,5 @@ playSearch(playsList, artistList, len(artistList), OWLA)
 printBookends(frame)
 findHeaviest(frame)
 
-if (options[3] == 1):
+if (options[2] == 1):
     frame.to_csv('file1.csv')

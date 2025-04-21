@@ -42,14 +42,14 @@ def playSearch(A1, A2, n, Target):
         else:
             print("You're exactly as mainstream as ", A2[m-1], " (", A1[m-1], " listeners last week)", sep="")
             return
-    print("You're about as mainstream as ", A2[m-1], " (", A1[m-1], " listeners last week)", sep="")
+    print("You're about as mainstream as ", A2[m-1], " (", A1[m-1], " listeners last week)\n", sep="")
     return
 
 def printBookends(frame):
     print("Your most mainstream artist was ", frame.loc[len(frame)-1].iloc[1], " (", frame.loc[len(frame)-1].iloc[3], 
       " average listeners last week)", sep="")
     print("Your most obscure artist was ", frame.loc[0].iloc[1], " (", frame.loc[0].iloc[3], 
-      " average listeners last week)", sep="")
+      " average listeners last week)\n", sep="")
     
 def findHeaviest(df):
     print("Your favorite mainstream artist was ", df.loc[df['weighted'].idxmax()].iloc[1], ", which you played ",
