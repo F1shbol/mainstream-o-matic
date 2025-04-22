@@ -1,6 +1,6 @@
 from linkify import linkifyInput
 from frontend import welcome
-from formula import getScore, playSearch, addWeight, parseRow3, printBookends, findHeaviest
+from formula import getScore, playSearch, addWeight, parseRow3, printBookends, findHeaviest, addGeorge
 
 import pandas as pd
 from bs4 import BeautifulSoup as Soup
@@ -81,6 +81,8 @@ playsList = frame['1w'].tolist()
 playSearch(playsList, artistList, len(artistList), OWLA)
 
 printBookends(frame)
+
+frame = addGeorge(frame)
 findHeaviest(frame)
 
 if (options[2] == 1):

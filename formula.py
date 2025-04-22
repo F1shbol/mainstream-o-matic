@@ -50,9 +50,44 @@ def printBookends(frame):
       " average listeners last week)", sep="")
     print("Your most obscure artist was ", frame.loc[0].iloc[1], " (", frame.loc[0].iloc[3], 
       " average listeners last week)\n", sep="")
-    
+
+def totalListenersColumn(frame):
+    lst = []
+    for i in range(len(frame)):
+        lst.append(frame['weighted'].sum())
+    frame['LstnrTotal'] = lst
+    return frame
+
+def totalPlaysColumn(frame):
+    lst = []
+    for i in range(len(frame)):
+        lst.append(frame['playcount'].sum())
+    frame['PlayTotal'] = lst
+    return frame
+
+def avgListenersColumn(frame):
+    lst = []
+    for i in range(len(frame)):
+        lst.append(frame['weighted'].sum() / frame['playcount'].sum())
+    frame['LstnrAvg'] = lst
+    return frame
+
+def georgeBailey(row):
+    # return float(row['playcount']) * float(row['1w'])
+    clarence = (row['LstnrTotal'] - row['weighted']) / (row['PlayTotal'] - row['playcount'])
+    return row['LstnrAvg'] - clarence
+
+def addGeorge(frame):
+    totalListenersColumn(frame)
+    totalPlaysColumn(frame)
+    avgListenersColumn(frame)
+
+    result = frame.apply(georgeBailey, axis=1)
+    frame['trueWeight'] = result
+    return frame
+
 def findHeaviest(df):
-    print("Your favorite mainstream artist was ", df.loc[df['weighted'].idxmax()].iloc[1], ", which you played ",
-          df.loc[df['weighted'].idxmax()].iloc[2], " times", sep="")
-    print("Your favorite obscure artist was ", df.loc[df['weighted'].idxmin()].iloc[1], ", which you played ",
-          df.loc[df['weighted'].idxmin()].iloc[2], " times", sep="")
+    print("Your favorite mainstream artist was ", df.loc[df['trueWeight'].idxmax()].iloc[1], ", which you played ",
+          df.loc[df['trueWeight'].idxmax()].iloc[2], " times", sep="")
+    print("Your favorite obscure artist was ", df.loc[df['trueWeight'].idxmin()].iloc[1], ", which you played ",
+          df.loc[df['trueWeight'].idxmin()].iloc[2], " times", sep="")
