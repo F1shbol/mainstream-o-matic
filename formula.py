@@ -83,11 +83,11 @@ def addGeorge(frame):
     avgListenersColumn(frame)
 
     result = frame.apply(georgeBailey, axis=1)
-    frame['trueWeight'] = result
+    frame['impact'] = result
     return frame
 
 def findHeaviest(df):
-    print("Your favorite mainstream artist was ", df.loc[df['trueWeight'].idxmax()].iloc[1], ", which you played ",
-          df.loc[df['trueWeight'].idxmax()].iloc[2], " times", sep="")
-    print("Your favorite obscure artist was ", df.loc[df['trueWeight'].idxmin()].iloc[1], ", which you played ",
-          df.loc[df['trueWeight'].idxmin()].iloc[2], " times", sep="")
+    print("Your favorite mainstream artist was ", df.loc[df['impact'].idxmax()].iloc[1], ", which you played ",
+          df.loc[df['impact'].idxmax()].iloc[2], " times", sep="")
+    print("Your favorite obscure artist was ", df.loc[df['impact'].idxmin()].iloc[1], ", which you played ",
+          df.loc[df['impact'].idxmin()].iloc[2], " times", sep="")

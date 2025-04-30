@@ -11,9 +11,6 @@ from time import sleep
 # Command to create a single executable
 # python -m PyInstaller -F scraper.py
 
-# if (welcome() == False):
-#     sys.exit("Program exited")
-
 options = welcome()
 
 # gets the lists returned by linkify.py
@@ -71,7 +68,8 @@ frame["6mo"] = sixmonths
 frame = addWeight(frame) # adds a new column with artists' weighted OWLAs
 OWLA = frame['weighted'].sum() / frame['playcount'].sum()
 
-print("\nYour one-week listener average is", round(OWLA, 1))
+print("\nYour one-week listener average is", round(OWLA, 1), 
+      "\nThis means that for each song you played, that many people listened to the artist every day last week")
 print("This corresponds to a last.fm mainstream score of approximately ", round(getScore(OWLA), 0), "%", sep="")
 
 frame = frame.sort_values(by='1w')
@@ -85,5 +83,11 @@ printBookends(frame)
 frame = addGeorge(frame)
 findHeaviest(frame)
 
+leave = 0
+while (leave != ""):
+    print("Press Enter to exit the program:")
+    leave = input()
+
 if (options[2] == 1):
+    frame = frame.drop(['weighted', 'LstnrTotal', 'PlayTotal', 'LstnrAvg'], axis=1)
     frame.to_csv('file1.csv')
