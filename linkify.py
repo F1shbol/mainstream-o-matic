@@ -70,12 +70,24 @@ def linkifyInput(modes):
             thisdict = dict()
             for row in reader:
                 dictCheck(row['artist'], thisdict)
-        
+
+        ## Here's where you should print out the dictionary as it stands and ask the user to set the threshold should be
+        ## but only if they have fast mode on already
+        if (fastMode == 'y'):
+            # myVals = list(thisdict.values())
+            # myVals.sort()
+
+            # sortdict = {i:thisdict[i] for i in myVals}
+            sortdict = sorted(thisdict.items(), key=lambda kv: (kv[1], kv[0]))
+            print(sortdict)
+            print("\nThese are the artists in your history with playcounts. Enter the desired threshold:")
+            thresh = int(input())
+
         # Append the names and playcounts to their lists
-        # For fast mode it checks if the artist has more than one play first
+        # For fast mode it checks if the artist has enough plays to clear the threshold first
         if (fastMode == 'y'):
             for x, y in thisdict.items():
-                if (int(y) > 1):
+                if (int(y) > thresh):
                     names.append(x)
                     playcounts.append(int(y))
         else:

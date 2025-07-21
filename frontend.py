@@ -29,7 +29,7 @@ def welcome():
     if (ans2 != "1"):
         sys.exit("Program exited")
 
-    print("\nDo you want to exclude artists with only 1 play? This will make the program run faster.\n" \
+    print("\nDo you want to set a minimum number of plays for an artist to be counted? This will make the program run faster.\n" \
     "1. Yes\n" \
     "2. No")
     ans3 = input()

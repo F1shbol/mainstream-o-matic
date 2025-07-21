@@ -21,7 +21,7 @@ frameStarter = {"name": names,
 
 frame = pd.DataFrame(frameStarter)
 
-print(frame)
+# print(frame)
 
 oneweek = []
 onemonth = []
